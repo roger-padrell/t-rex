@@ -1,0 +1,35 @@
+{
+  "tests": [
+    {
+      "name": "matchOne",
+      "main": "tests/test_matchOne.cob",
+      "modules": [
+        "./trex_matchOne.cob"
+      ],
+      "std": "ibm"
+    },
+    {
+      "name": "match",
+      "main": "tests/test_match.cob",
+      "modules": [
+        "./trex_matchOne.cob",
+        "./trex_match.cob",
+        "./trex_matchQuestion.cob",
+        "./trex_matchStar.cob"
+      ],
+      "std": "ibm"
+    },
+    {
+      "name": "search",
+      "main": "tests/test_search.cob",
+      "modules": [
+        "./trex_matchOne.cob",
+        "./trex_match.cob",
+        "./trex_search.cob",
+        "./trex_matchQuestion.cob",
+        "./trex_matchStar.cob"
+      ],
+      "std": "ibm"
+    }
+  ]
+}

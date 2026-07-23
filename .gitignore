@@ -1,0 +1,15 @@
+# Ignore binary files without extension
+# This pattern matches files in the current directory and subdirectories
+# that have no extension and are executable/binary
+*
+!*/
+!*.*
+
+# Ignore all *.c* files (C source, C++ source, compiled objects, etc.)
+*.c*
+
+# Ignore all *.i files (preprocessed files)
+*.i
+
+# Accept .cob files
+!*.cob
