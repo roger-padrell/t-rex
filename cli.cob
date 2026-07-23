@@ -16,6 +16,14 @@
        LINKAGE SECTION.       
 
        PROCEDURE DIVISION.
+           DISPLAY "  #######     ######  ####### #     # "
+           DISPLAY "     #        #     # #        #   #  "
+           DISPLAY "     #        #     # #         # #   "
+           DISPLAY "     #  ##### ######  #####      #    "
+           DISPLAY "     #        #   #   #         # #   "
+           DISPLAY "     #        #    #  #        #   #  "
+           DISPLAY "     #        #     # ####### #     # "
+                                          
            DISPLAY "Enter an expression (or q to quit): ".
            accept ptrn.
            perform until ptrn = "q" or str = "q"
