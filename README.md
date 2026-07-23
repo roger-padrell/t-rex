@@ -91,6 +91,7 @@ The available test suites are:
 - This module does not use any external tools (C, C++, Go, Java, C#...) or programs.
 - I have tested the following standards (with `cobc`):
     - ibm
+- It is recommended to end regular expressions with `$` and start them with `^`.
 
 ## Acknowledgments
 - Thanks [Nick Drane](https://nickdrane.com/), the author of the [article](https://nickdrane.com/build-your-own-regex/) I have based this on.
