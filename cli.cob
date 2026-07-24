@@ -11,18 +11,20 @@
        01 ptrn               PIC X(256) VALUE SPACES.
        01 str                   PIC x(256).
        01 matches_bl          PIC 9(1).
+       01 str_from           PIC 9(3).
+       01 str_to           PIC 9(3).
 
 
        LINKAGE SECTION.       
 
        PROCEDURE DIVISION.
-           DISPLAY "  #######     ######  ####### #     # "
-           DISPLAY "     #        #     # #        #   #  "
-           DISPLAY "     #        #     # #         # #   "
-           DISPLAY "     #  ##### ######  #####      #    "
-           DISPLAY "     #        #   #   #         # #   "
-           DISPLAY "     #        #    #  #        #   #  "
-           DISPLAY "     #        #     # ####### #     # "
+           DISPLAY "#######    ######  ####### #     # "
+           DISPLAY "   #       #     # #        #   #  "
+           DISPLAY "   #       #     # #         # #   "
+           DISPLAY "   # ##### ######  #####      #    "
+           DISPLAY "   #       #   #   #         # #   "
+           DISPLAY "   #       #    #  #        #   #  "
+           DISPLAY "   #       #     # ####### #     # "
                                           
            DISPLAY "Enter an expression (or q to quit): ".
            accept ptrn.
@@ -32,8 +34,10 @@
                accept str
                perform until str = "q" or str = "c"
                    CALL "trex_search" USING BY REFERENCE ptrn 
-                       str matches_bl
+                       str matches_bl str_from str_to
                    display "Match (1=yes)?: " matches_bl
+                   display "Match from " str_from " to " str_to ": "
+                       str(str_from : str_to - str_from + 1) 
                    display " "
                    display "Enter string to test (q to quit, c to"
                        " change expression)"

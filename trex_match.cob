@@ -23,9 +23,10 @@
        01 pattern               PIC X(256) VALUE SPACES.
        01 str                   PIC x(256).
        01 matches_bool          PIC 9(1).
+       01 str_left           PIC 9(3).
        
 
-       PROCEDURE DIVISION USING pattern str matches_bool.
+       PROCEDURE DIVISION USING pattern str matches_bool str_left.
            COMPUTE pattern_len = FUNCTION STORED-CHAR-LENGTH(pattern).
            COMPUTE str_len = FUNCTION STORED-CHAR-LENGTH(str).
       D    display " "
@@ -37,6 +38,9 @@
                or pattern = low-value
       D            display "Pattern blank"
                    MOVE 1 TO matches_bool
+                   display "String left (" str_len "): " 
+                       FUNCTION TRIM(str)
+                   MOVE str_len TO str_left
                WHEN pattern = "$"
                    IF (str = SPACES OR str_len = 0) 
                        OR str = low-value THEN
@@ -47,11 +51,11 @@
                WHEN pattern(2:1) = "?"
       D            display "Found '?'"
                    CALL "trex_matchQuestion" USING BY REFERENCE pattern 
-                       str matches_bool
+                       str matches_bool str_left
                WHEN pattern(2:1) = "*"
       D            display "Found '*'"
                    CALL "trex_matchStar" USING BY REFERENCE pattern str
-                       matches_bool
+                       matches_bool str_left
                WHEN OTHER
                    MOVE pattern(1:1) TO one_pattern
                    MOVE str(1:1) TO one_str
@@ -64,7 +68,7 @@
                        MOVE pattern(2:pattern_len) TO two_pattern
                        MOVE str(2:str_len) TO two_str
                        CALL "trex_match" USING BY REFERENCE two_pattern 
-                       two_str two_matches_bool 
+                       two_str two_matches_bool str_left
                        
       D                display "Same following: " two_matches_bool
                        IF two_matches_bool=1 then

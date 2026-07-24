@@ -7,7 +7,14 @@ Based on [this article](https://nickdrane.com/build-your-own-regex/)
 Input string length: 256 characters (3 digits)
 REGEX length: 256 characters (3 digits)
 
-## What works (from the article)
+## What works
+Features:
+- String validation with the regex syntax defined in the following section.
+- Match extraction from a string with a regex expression: **\[THIS FEATURE IS STILL IN DEVELOPMENT\]**
+    - ex. expression: "a*b", string: "ccaaabdd"  -> "aaab"
+
+### Regex
+What regex features are implemented
 | **Syntax** | **Meaning**                                 | **Example** | **matches**          |
 |------------|---------------------------------------------|-------------|----------------------|
 | a          | Matches the specified character literal     | q           | q                    |
@@ -34,6 +41,8 @@ Necessary variables:
 01 pattern               PIC X(256) VALUE SPACES.
 01 str                   PIC x(256).
 01 matches_bool          PIC 9(1).
+01 str_from              PIC 9(3).
+01 str_to                PIC 9(3).
 ```
 
 - pattern: the expression to match against
@@ -41,14 +50,23 @@ Necessary variables:
 - matches_bool: the output.
     - 1 = there is a match
     - 0 = there is no match
+- str_from and str_to: range in where the match was found
+    - if matches_bool is 0, this may contain random data, do not check only this
 
 Call:
 ```cobol
-CALL "trex_search" USING BY REFERENCE pattern str matches_bool.
+CALL "trex_search" USING BY REFERENCE pattern str matches_bool str_from str_to.
 
 *or, if you have line length limits
 CALL "trex_search" USING BY REFERENCE pattern str
-    matches_bool.
+    matches_bool str_from str_to.
+```
+
+Get the match itself:
+```cobol
+CALL "trex_search" USING BY REFERENCE pattern str
+    matches_bool str_from str_to.
+DISPLAY str(str_from : str_to - str_from + 1).
 ```
 
 The `USING BY REFERENCE` is very important, as it lets the module edit the `matches_bool` variable, returning an output.

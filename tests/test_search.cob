@@ -11,6 +11,8 @@
        01 pattern               PIC X(256) VALUE SPACES.
        01 str                   PIC x(256).
        01 matches_bl          PIC 9(1).
+       01 str_from           PIC 9(3).
+       01 str_to           PIC 9(3).
 
 
        LINKAGE SECTION.       
@@ -19,7 +21,8 @@
       *    Testing ^
            MOVE "^abc" TO pattern.
            MOVE "abc" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+                   str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -28,7 +31,8 @@
            display "---------------------------------"
            MOVE "^abcd" TO pattern.
            MOVE "abcd" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -39,7 +43,8 @@
       *    Testing order
            MOVE "bc" TO pattern.
            MOVE "abcd" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -48,7 +53,8 @@
            display "---------------------------------"
            MOVE "cb" TO pattern.
            MOVE "abcd" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -59,7 +65,8 @@
       *    Testing \?
            MOVE "ab?c" TO pattern.
            MOVE "ac" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -68,7 +75,8 @@
            display "---------------------------------"
            MOVE "ab?c" TO pattern.
            MOVE "abc" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -77,7 +85,8 @@
            display "---------------------------------"
            MOVE "a?b?c?" TO pattern.
            MOVE "abc" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -86,7 +95,8 @@
            display "---------------------------------"
            MOVE "a?b?c?" TO pattern.
            MOVE " " TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -95,7 +105,8 @@
            display "---------------------------------"
            MOVE "ab?c" TO pattern.
            MOVE "ab" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -104,7 +115,8 @@
       *    Testing \*
            MOVE "a*" TO pattern.
            MOVE " " TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -113,7 +125,8 @@
            display "---------------------------------"
            MOVE "a*" TO pattern.
            MOVE "aaaaaaaa" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -122,7 +135,8 @@
            display "---------------------------------"
            MOVE "a*b" TO pattern.
            MOVE "aaaaaab" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -131,7 +145,8 @@
            display "---------------------------------"
            MOVE "^a*b$" TO pattern.
            MOVE "abbb" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
@@ -140,7 +155,8 @@
            display "---------------------------------"
            MOVE "^a*b$" TO pattern.
            MOVE "bbbb" TO str.
-           CALL "trex_search" USING BY REFERENCE pattern str matches_bl.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
            display "Input: '" FUNCTION TRIM(pattern) "', '" 
                FUNCTION TRIM(str) "'".
            display "Output: " matches_bl.
