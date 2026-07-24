@@ -4,7 +4,8 @@
       "name": "matchOne",
       "main": "tests/test_matchOne.cob",
       "modules": [
-        "./trex_matchOne.cob"
+        "./trex_matchOne.cob",
+        "./trex_matchOneEl.cob"
       ],
       "std": "ibm"
     },
@@ -15,7 +16,9 @@
         "./trex_matchOne.cob",
         "./trex_match.cob",
         "./trex_matchQuestion.cob",
-        "./trex_matchStar.cob"
+        "./trex_matchStar.cob",
+        "./trex_getFirstEl.cob",
+        "./trex_matchOneEl.cob"
       ],
       "std": "ibm"
     },
@@ -27,7 +30,45 @@
         "./trex_match.cob",
         "./trex_search.cob",
         "./trex_matchQuestion.cob",
-        "./trex_matchStar.cob"
+        "./trex_matchStar.cob",
+        "./trex_getFirstEl.cob",
+        "./trex_matchOneEl.cob"
+      ],
+      "std": "ibm"
+    },
+    {
+      "name": "matchEl",
+      "main": "tests/test_matchel.cob",
+      "modules": [
+        "./trex_matchOne.cob",
+        "./trex_match.cob",
+        "./trex_search.cob",
+        "./trex_matchQuestion.cob",
+        "./trex_matchStar.cob",
+        "./trex_getFirstEl.cob",
+        "./trex_matchOneEl.cob"
+      ],
+      "std": "ibm"
+    },
+    {
+      "name": "expandedEl",
+      "main": "tests/test_expandedEl.cob",
+      "modules": [
+        "./trex_matchOne.cob",
+        "./trex_match.cob",
+        "./trex_search.cob",
+        "./trex_matchQuestion.cob",
+        "./trex_matchStar.cob",
+        "./trex_getFirstEl.cob",
+        "./trex_matchOneEl.cob"
+      ],
+      "std": "ibm"
+    },
+    {
+      "name": "getFirstEl",
+      "main": "tests/test_getFirstEl.cob",
+      "modules": [
+        "./trex_getFirstEl.cob"
       ],
       "std": "ibm"
     }

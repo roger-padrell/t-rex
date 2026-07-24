@@ -31,7 +31,11 @@
                MOVE 1 TO matches_bool
            ELSE IF pattern = str THEN
                MOVE 1 TO matches_bool
-           ELSE
+           ELSE IF pattern(1:1) = "(" THEN
+               CALL "trex_matchOneEl" USING BY REFERENCE pattern 
+                   str matches_bool
+      D        display "Matching element: " TRIM(pattern)
+           ELSE 
                MOVE 0 TO matches_bool
            END-IF.
            

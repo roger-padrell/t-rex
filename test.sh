@@ -15,6 +15,7 @@ TEMP_DIR=".cobol_tests_tmp"
 EXECUTABLE_DIR="${TEMP_DIR}/bin"
 DEBUG_LINES=0
 SILENT_MODE=0
+run_all=0
 
 # Function to print colored output
 print_status() {
@@ -47,6 +48,7 @@ Usage: $0 [OPTIONS] [test_name]
 OPTIONS:
     -c, --config FILE    Specify config file (default: tests.json)
     -d, --debug          Enable COBOL debugging lines
+    -a, --all            Run all tests
     -s, --silent         Hide the program's output
     -l, --list           List all available tests
     -h, --help           Show this help message
@@ -57,6 +59,9 @@ EXAMPLES:
     $0 -s test_name
     $0 --config custom.json my_test
     $0 -l
+    $0 -a
+    $0 -a -d
+    $0 -a -s
 EOF
     exit 0
 }
@@ -72,6 +77,17 @@ parse_test() {
     fi
 
     jq -r --arg name "$test_name" '.tests[] | select(.name == $name) | @json' "$file"
+}
+
+get_all_tests() {
+    local file=$1
+
+    if ! command -v jq &> /dev/null; then
+        print_error "jq is required to parse JSON files. Please install jq."
+        exit 1
+    fi
+
+    jq -r '.tests[].name' "$file"
 }
 
 # Function to list all tests
@@ -188,7 +204,7 @@ check_tests() {
 
         if [[ "$actual" == "$expected" ]]; then
             ((passed++))
-            print_success "$input: '$actual' (expected '$expected')"
+            print_success "$input: $actual (expected $expected)"
         else
             ((failed++))
             print_error "$input"
@@ -255,6 +271,89 @@ cleanup() {
 # Setup trap to cleanup on exit
 trap cleanup EXIT
 
+run_test() {
+    local test_name=$1
+
+    print_info "Looking for test: $test_name"
+
+    # Validate config file exists
+    if [[ ! -f "$CONFIG_FILE" ]]; then
+        print_error "Config file not found: $CONFIG_FILE"
+        return 1
+    fi
+
+    # Get test configuration
+    local test_json
+    test_json=$(parse_test "$CONFIG_FILE" "$test_name")
+
+    if [[ -z "$test_json" ]]; then
+        print_error "Test not found: $test_name"
+        list_tests "$CONFIG_FILE"
+        return 1
+    fi
+
+    # Extract test properties
+    local main_file
+    local std
+    local modules=()
+
+    main_file=$(extract_property "$test_json" "main")
+    std=$(extract_property "$test_json" "std")
+
+    # Default to ibm if not specified
+    std="${std:-ibm}"
+
+    # Extract modules into array
+    while IFS= read -r module; do
+        [[ -n "$module" ]] && modules+=("$module")
+    done < <(extract_array "$test_json" "modules")
+
+    # Validate main file exists
+    if [[ ! -f "$main_file" ]]; then
+        print_error "Main file not found: $main_file"
+        return 1
+    fi
+
+    # Validate modules exist
+    for module in "${modules[@]}"; do
+        if [[ ! -f "$module" ]]; then
+            print_error "Module file not found: $module"
+            return 1
+        fi
+    done
+
+    print_success "Test configuration loaded"
+    echo "  Name:       $test_name"
+    echo "  Main file:  $main_file"
+    echo "  Standard:   $std"
+    echo "  Debugging:  $([[ $DEBUG_LINES -eq 1 ]] && echo "Enabled" || echo "Disabled")"
+
+    if [[ ${#modules[@]} -gt 0 ]]; then
+        echo "  Modules:"
+        for module in "${modules[@]}"; do
+            echo "    - $module"
+        done
+    fi
+    echo ""
+
+    # Create temporary directory
+    mkdir -p "$EXECUTABLE_DIR"
+
+    # Compile
+    local executable="${EXECUTABLE_DIR}/${test_name}"
+
+    if ! compile_cobol "$main_file" "$std" "$executable" "${modules[@]}"; then
+        return 1
+    fi
+
+    echo ""
+
+    # Run
+    if ! run_program "$executable"; then
+        return 1
+    fi
+}
+
 # Main function
 main() {
     local test_name=""
@@ -272,6 +371,10 @@ main() {
                 ;;
             -d|--debug)
                 DEBUG_LINES=1
+                shift
+                ;;
+            -a|--all)
+                run_all=1
                 shift
                 ;;
             -c|--config)
@@ -299,6 +402,50 @@ main() {
         return 0
     fi
 
+    if [[ $run_all -eq 1 ]]; then
+        local total=0
+        local passed=0
+        local failed=0
+
+        while IFS= read -r test; do
+            [[ -z "$test" ]] && continue
+
+            echo ""
+            echo "=================================================="
+            print_info "Running test: $test"
+            echo "=================================================="
+
+            ((total++))
+
+            if run_test "$test"; then
+                ((passed++))
+            else
+                ((failed++))
+            fi
+        done < <(get_all_tests "$CONFIG_FILE")
+
+        echo ""
+        echo "=================================================="
+        echo "Overall summary"
+        echo "=================================================="
+        echo "Tests : $total"
+
+        if [[ $passed -gt 0 ]]; then
+            print_success "Passed : $passed"
+        else
+            echo "Passed : 0"
+        fi
+
+        if [[ $failed -eq 0 ]]; then
+            print_success "Failed : 0"
+        else
+            print_error "Failed : $failed"
+        fi
+
+        [[ $failed -eq 0 ]]
+        return
+    fi
+
     # Require test name
     if [[ -z "$test_name" ]]; then
         print_error "Test name is required"
@@ -306,84 +453,7 @@ main() {
         usage
     fi
 
-    print_info "Looking for test: $test_name"
-
-    # Validate config file exists
-    if [[ ! -f "$CONFIG_FILE" ]]; then
-        print_error "Config file not found: $CONFIG_FILE"
-        exit 1
-    fi
-
-    # Get test configuration
-    local test_json
-    test_json=$(parse_test "$CONFIG_FILE" "$test_name")
-
-    if [[ -z "$test_json" ]]; then
-        print_error "Test not found: $test_name"
-        list_tests "$CONFIG_FILE"
-        exit 1
-    fi
-
-    # Extract test properties
-    local main_file
-    local std
-    local modules=()
-
-    main_file=$(extract_property "$test_json" "main")
-    std=$(extract_property "$test_json" "std")
-
-    # Default to ibm if not specified
-    std="${std:-ibm}"
-
-    # Extract modules into array
-    while IFS= read -r module; do
-        [[ -n "$module" ]] && modules+=("$module")
-    done < <(extract_array "$test_json" "modules")
-
-    # Validate main file exists
-    if [[ ! -f "$main_file" ]]; then
-        print_error "Main file not found: $main_file"
-        exit 1
-    fi
-
-    # Validate modules exist
-    for module in "${modules[@]}"; do
-        if [[ ! -f "$module" ]]; then
-            print_error "Module file not found: $module"
-            exit 1
-        fi
-    done
-
-    print_success "Test configuration loaded"
-    echo "  Name:       $test_name"
-    echo "  Main file:  $main_file"
-    echo "  Standard:   $std"
-    echo "  Debugging:  $([[ $DEBUG_LINES -eq 1 ]] && echo "Enabled" || echo "Disabled")"
-
-    if [[ ${#modules[@]} -gt 0 ]]; then
-        echo "  Modules:"
-        for module in "${modules[@]}"; do
-            echo "    - $module"
-        done
-    fi
-    echo ""
-
-    # Create temporary directory
-    mkdir -p "$EXECUTABLE_DIR"
-
-    # Compile
-    local executable="${EXECUTABLE_DIR}/${test_name}"
-
-    if ! compile_cobol "$main_file" "$std" "$executable" "${modules[@]}"; then
-        exit 1
-    fi
-
-    echo ""
-
-    # Run
-    if ! run_program "$executable"; then
-        exit 1
-    fi
+    run_test "$test_name"
 }
 
 # Run main function
