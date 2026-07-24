@@ -13,3 +13,4 @@
 
 # Accept .cob files
 !*.cob
+!LICENSE
