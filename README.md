@@ -10,7 +10,7 @@ REGEX length: 256 characters (3 digits)
 ## What works
 Features:
 - String validation with the regex syntax defined in the following section.
-- Match extraction from a string with a regex expression: **\[THIS FEATURE IS STILL IN DEVELOPMENT\]**
+- Match extraction from a string with a regex expression: **\[THIS FEATURE IS STILL IN DEVELOPMENT, IT DOES NOT WORK PROPERLY AND BEHAVES RANDOMLY\]**
     - ex. expression: "a*b", string: "ccaaabdd"  -> "aaab"
 
 ### Regex
@@ -21,6 +21,7 @@ What regex features are implemented
 | *                | Matches 0 or more of the previous character/group | a*          | "", a, aa, aaa       |
 | ?                | Matches 0 or 1 of the previous character/group    | a?          | "", a                |
 | +                | Matches 1 or more of the previous character/group| a+| a, aa, aaa...|
+| {x,y}            | Matches from x to y of the previous character/group| a{2,4} | ~~a~~, aa, aaa, aaaa, ~~aaaaa~~|
 | .                | Matches any character literal               | .           | a, b, c, d, e ...    |
 | ^                | Matches the start of a string               | ^c          | c, ca, caa, cbb ...  |
 | $                | Matches the end of a string                 | a$          | ba, baaa, qwerta ... |
@@ -108,6 +109,7 @@ The available test suites are:
 - This module does not use any external tools (C, C++, Go, Java, C#...) or programs.
 - I have tested the following standards (with `cobc`):
     - ibm
+- It is VERY recommended to use `^` at the start of your pattern and `$` at the end to match the start and end of the validated string (if you are matching the whole string).
 
 ## Acknowledgments
 - Thanks [Nick Drane](https://nickdrane.com/), the author of the [article](https://nickdrane.com/build-your-own-regex/) I have based this on.

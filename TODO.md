@@ -2,7 +2,7 @@
     - [x] [a-z] [A-Z] [a-Z] [a-zA-Z] [0-9]
     - [x] [^a-z] ...
 - [x] + quantifier — extremely common
-- [ ] {n,m} quantifiers — very useful for specific counts
+- [x] {n,m} quantifiers — very useful for specific counts
 - [ ] \d, \w, \s shortcuts — used in 80% of real-world patterns
 - [ ] Proper grouping (...) and alternation | — essential for complex patterns
 - [ ] Escape sequences \ — needed for literal special characters

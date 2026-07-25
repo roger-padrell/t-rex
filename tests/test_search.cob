@@ -194,6 +194,87 @@
            display "Expected: 1".
            display "  "
            display "---------------------------------"
+
+           MOVE "a{2,4}" TO pattern.
+           MOVE "aaa" TO str.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
+           display "Input: '" FUNCTION TRIM(pattern) "', '" 
+               FUNCTION TRIM(str) "'".
+           display "Output: " matches_bl.
+           display "Expected: 1".
+           display "  "
+           display "---------------------------------"
+           MOVE "a{2,4}" TO pattern.
+           MOVE "aa" TO str.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
+           display "Input: '" FUNCTION TRIM(pattern) "', '" 
+               FUNCTION TRIM(str) "'".
+           display "Output: " matches_bl.
+           display "Expected: 1".
+           display "  "
+           display "---------------------------------"
+           MOVE "a{2,4}" TO pattern.
+           MOVE "aaaa" TO str.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
+           display "Input: '" FUNCTION TRIM(pattern) "', '" 
+               FUNCTION TRIM(str) "'".
+           display "Output: " matches_bl.
+           display "Expected: 1".
+           display "  "
+           display "---------------------------------"
+           MOVE "a{2,4}" TO pattern.
+           MOVE "a" TO str.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
+           display "Input: '" FUNCTION TRIM(pattern) "', '" 
+               FUNCTION TRIM(str) "'".
+           display "Output: " matches_bl.
+           display "Expected: 0".
+           display "  "
+           display "---------------------------------"
+           MOVE "a{2,4}" TO pattern.
+           MOVE "aaaaa" TO str.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
+           display "Input: '" FUNCTION TRIM(pattern) "', '" 
+               FUNCTION TRIM(str) "'".
+           display "Output: " matches_bl.
+           display "Expected: 1".
+           display "  "
+           display "---------------------------------"
+           MOVE "^a{2,4}$" TO pattern.
+           MOVE "aaaaa" TO str.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
+           display "Input: '" FUNCTION TRIM(pattern) "', '" 
+               FUNCTION TRIM(str) "'".
+           display "Output: " matches_bl.
+           display "Expected: 0".
+           display "  "
+           display "---------------------------------"
+           MOVE "a{2,4}" TO pattern.
+           MOVE " " TO str.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
+           display "Input: '" FUNCTION TRIM(pattern) "', '" 
+               FUNCTION TRIM(str) "'".
+           display "Output: " matches_bl.
+           display "Expected: 0".
+           display "  "
+           display "---------------------------------"
+           MOVE "a{10,11}" TO pattern.
+           MOVE "aaaaaaaaaa" TO str.
+           CALL "trex_search" USING BY REFERENCE pattern str matches_bl
+               str_from str_to.
+           display "Input: '" FUNCTION TRIM(pattern) "', '" 
+               FUNCTION TRIM(str) "'".
+           display "Output: " matches_bl.
+           display "Expected: 1".
+           display "  "
+           display "---------------------------------"
        
            STOP RUN.
        

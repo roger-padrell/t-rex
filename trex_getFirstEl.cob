@@ -22,7 +22,8 @@
        PROCEDURE DIVISION USING pattern firstEl newPattern.
            COMPUTE patternLen = FUNCTION STORED-CHAR-LENGTH(pattern).
            MOVE pattern(1:1) TO firstChar.
-           IF firstChar = "[" THEN
+           evaluate firstChar
+           WHEN "["
                MOVE " " TO firstEl
                PERFORM VARYING loopIndex FROM 1 BY 1 UNTIL 
                    firstChar = "]"
@@ -34,9 +35,34 @@
       D            display firstChar
                END-PERFORM
                MOVE pattern(loopIndex:patternLen) TO newPattern
-           ELSE
+           WHEN "{"
+               MOVE " " TO firstEl
+               PERFORM VARYING loopIndex FROM 1 BY 1 UNTIL 
+                   firstChar = "}"
+                   MOVE pattern(loopIndex:1) TO firstChar
+                   STRING firstEl DELIMITED BY SPACES
+                       firstChar DELIMITED BY SIZE
+                       INTO firstEl
+                   END-STRING
+      D            display firstChar
+               END-PERFORM
+               MOVE pattern(loopIndex:patternLen) TO newPattern
+           WHEN "("
+               MOVE " " TO firstEl
+               PERFORM VARYING loopIndex FROM 1 BY 1 UNTIL 
+                   firstChar = ")"
+                   MOVE pattern(loopIndex:1) TO firstChar
+                   STRING firstEl DELIMITED BY SPACES
+                       firstChar DELIMITED BY SIZE
+                       INTO firstEl
+                   END-STRING
+      D            display firstChar
+               END-PERFORM
+               MOVE pattern(loopIndex:patternLen) TO newPattern
+           WHEN OTHER
                MOVE firstChar TO firstEl
                MOVE pattern(2:patternLen) TO newPattern
-           END-IF.
+           end-evaluate.
+
            GOBACK.
        

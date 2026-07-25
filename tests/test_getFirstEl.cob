@@ -60,6 +60,28 @@
            display " "
            display "----------------------------------"
 
+           MOVE "[a-z]hello" TO pattern.
+           CALL "trex_getFirstEl" USING BY REFERENCE pattern firstEl 
+               newPattern.
+           display "Input: '" FUNCTION TRIM(pattern) "'".
+           display "Output: '" FUNCTION TRIM(firstEl) "','" 
+               FUNCTION TRIM(newPattern) "'".
+           display "Expected: '[a-z]','hello'".
+           MOVE newPattern TO pattern.
+           display " "
+           display "----------------------------------"
+
+           MOVE "{1,2,3}hello" TO pattern.
+           CALL "trex_getFirstEl" USING BY REFERENCE pattern firstEl 
+               newPattern.
+           display "Input: '" FUNCTION TRIM(pattern) "'".
+           display "Output: '" FUNCTION TRIM(firstEl) "','" 
+               FUNCTION TRIM(newPattern) "'".
+           display "Expected: '{1,2,3}','hello'".
+           MOVE newPattern TO pattern.
+           display " "
+           display "----------------------------------"
+
            MOVE "(a-z)hello" TO pattern.
            CALL "trex_getFirstEl" USING BY REFERENCE pattern firstEl 
                newPattern.
@@ -68,7 +90,6 @@
                FUNCTION TRIM(newPattern) "'".
            display "Expected: '(a-z)','hello'".
            MOVE newPattern TO pattern.
-
            display " "
            display "----------------------------------"
 
