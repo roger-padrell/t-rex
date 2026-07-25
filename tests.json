@@ -18,7 +18,8 @@
         "./trex_matchQuestion.cob",
         "./trex_matchStar.cob",
         "./trex_getFirstEl.cob",
-        "./trex_matchOneEl.cob"
+        "./trex_matchOneEl.cob",
+        "./trex_matchPlus.cob"
       ],
       "std": "ibm"
     },
@@ -32,7 +33,8 @@
         "./trex_matchQuestion.cob",
         "./trex_matchStar.cob",
         "./trex_getFirstEl.cob",
-        "./trex_matchOneEl.cob"
+        "./trex_matchOneEl.cob",
+        "./trex_matchPlus.cob"
       ],
       "std": "ibm"
     },
@@ -46,7 +48,8 @@
         "./trex_matchQuestion.cob",
         "./trex_matchStar.cob",
         "./trex_getFirstEl.cob",
-        "./trex_matchOneEl.cob"
+        "./trex_matchOneEl.cob",
+        "./trex_matchPlus.cob"
       ],
       "std": "ibm"
     },
@@ -60,7 +63,8 @@
         "./trex_matchQuestion.cob",
         "./trex_matchStar.cob",
         "./trex_getFirstEl.cob",
-        "./trex_matchOneEl.cob"
+        "./trex_matchOneEl.cob",
+        "./trex_matchPlus.cob"
       ],
       "std": "ibm"
     },

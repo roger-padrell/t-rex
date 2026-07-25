@@ -1,7 +1,7 @@
 - [x] Bracket notation ([abc], [a-z], [^abc]) — replaces your current syntax
     - [x] [a-z] [A-Z] [a-Z] [a-zA-Z] [0-9]
     - [x] [^a-z] ...
-- [ ] + quantifier — extremely common
+- [x] + quantifier — extremely common
 - [ ] {n,m} quantifiers — very useful for specific counts
 - [ ] \d, \w, \s shortcuts — used in 80% of real-world patterns
 - [ ] Proper grouping (...) and alternation | — essential for complex patterns

@@ -64,6 +64,10 @@
       D            display "Found '*'"
                    CALL "trex_matchStar" USING BY REFERENCE pattern str
                        matches_bool str_left
+               WHEN FUNCTION TRIM(secondEl) = "+"
+      D            display "Found '+'"
+                   CALL "trex_matchPlus" USING BY REFERENCE pattern str
+                       matches_bool str_left
                WHEN OTHER
                    MOVE firstEl TO one_pattern
                    MOVE str(1:1) TO one_str

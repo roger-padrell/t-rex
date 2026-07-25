@@ -18,8 +18,9 @@ What regex features are implemented
 | **Syntax** | **Meaning**                                 | **Example** | **matches**          |
 |------------|---------------------------------------------|-------------|----------------------|
 | a                | Matches the specified character literal     | q           | q                    |
-| *                | Matches 0 or more of the previous character | a*          | "", a, aa, aaa       |
-| ?                | Matches 0 or 1 of the previous character    | a?          | "", a                |
+| *                | Matches 0 or more of the previous character/group | a*          | "", a, aa, aaa       |
+| ?                | Matches 0 or 1 of the previous character/group    | a?          | "", a                |
+| +                | Matches 1 or more of the previous character/group| a+| a, aa, aaa...|
 | .                | Matches any character literal               | .           | a, b, c, d, e ...    |
 | ^                | Matches the start of a string               | ^c          | c, ca, caa, cbb ...  |
 | $                | Matches the end of a string                 | a$          | ba, baaa, qwerta ... |
@@ -27,18 +28,11 @@ What regex features are implemented
 | [A-Z]            | Matches any upper-case character            | [A-Z]       | A, B, C...           |
 | [a-Z] / [a-zA-Z] | Matches any lower or upper case character   |[a-Z][a-zA-Z]| a, B, c, D...        |
 | [0-9]            | Matches any digit                           | [0-9]       | 1, 2, 3...           |
-| [^0-9]            | Matches any non-digit (also works with other ranges)                      | [^0-9]       | a, B, !...           |
+| [^0-9]           | Matches any non-digit (also works with other ranges)| [^0-9]| a, B, !...|
 
 ## Usage
 ### Requirements
-Make sure to include these in your program (ex. `cobc -x your_program.cob trex_match.cob trex_matchOne.cob trex_matchQuestion.cob trex_matchStar.cob trex_search.cob` or `cobc -x yourprogram.cob trex_*.cob`).
-```
-├── trex_match.cob
-├── trex_matchOne.cob
-├── trex_matchQuestion.cob
-├── trex_matchStar.cob
-└── trex_search.cob
-```
+Make sure to include all `trex_*.cob` files as modules in your program (`cobc -x yourprogram.cob trex_*.cob`) or compile trex as a library and then add it to your program.
 
 ### Matching an expression
 Necessary variables:
