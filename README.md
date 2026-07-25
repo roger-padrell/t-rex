@@ -17,16 +17,17 @@ Features:
 What regex features are implemented
 | **Syntax** | **Meaning**                                 | **Example** | **matches**          |
 |------------|---------------------------------------------|-------------|----------------------|
-| a          | Matches the specified character literal     | q           | q                    |
-| *          | Matches 0 or more of the previous character | a*          | "", a, aa, aaa       |
-| ?          | Matches 0 or 1 of the previous character    | a?          | "", a                |
-| .          | Matches any character literal               | .           | a, b, c, d, e ...    |
-| ^          | Matches the start of a string               | ^c          | c, ca, caa, cbb ...  |
-| $          | Matches the end of a string                 | a$          | ba, baaa, qwerta ... |
-| (a-z)      | Matches any lower-case character            | (a-z)       | a, b, c...           |
-| (A-Z)      | Matches any upper-case character            | (A-Z)       | A, B, C...           |
-| (a-Z)      | Matches any lower or upper case character   | (a-Z)       | a, B, c, D...        |
-| (0-9)      | Matches any digit                           | (0-9)       | 1, 2, 3...           |
+| a                | Matches the specified character literal     | q           | q                    |
+| *                | Matches 0 or more of the previous character | a*          | "", a, aa, aaa       |
+| ?                | Matches 0 or 1 of the previous character    | a?          | "", a                |
+| .                | Matches any character literal               | .           | a, b, c, d, e ...    |
+| ^                | Matches the start of a string               | ^c          | c, ca, caa, cbb ...  |
+| $                | Matches the end of a string                 | a$          | ba, baaa, qwerta ... |
+| [a-z]            | Matches any lower-case character            | [a-z]       | a, b, c...           |
+| [A-Z]            | Matches any upper-case character            | [A-Z]       | A, B, C...           |
+| [a-Z] / [a-zA-Z] | Matches any lower or upper case character   |[a-Z][a-zA-Z]| a, B, c, D...        |
+| [0-9]            | Matches any digit                           | [0-9]       | 1, 2, 3...           |
+| [^0-9]            | Matches any non-digit (also works with other ranges)                      | [^0-9]       | a, B, !...           |
 
 ## Usage
 ### Requirements

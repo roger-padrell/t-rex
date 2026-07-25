@@ -14,7 +14,16 @@
 
        WORKING-STORAGE SECTION.
        01 pattern_len           PIC 9(3).
-       01 str_len           PIC 9(3).
+       01 str_len               PIC 9(3).
+
+       01 patternLowCase        PIC 9(1) VALUE 0.
+       01 patternUpCase         PIC 9(1) VALUE 0.
+       01 patternNum            PIC 9(1) VALUE 0.
+       01 loopLen               PIC 9(1).
+       01 patternSlice          PIC X(3).
+
+       01 patternNegate         PIC 9(1).
+       01 startSliceFrom        PIC 9(1).
 
 
        LINKAGE SECTION.
@@ -24,39 +33,64 @@
        
 
        PROCEDURE DIVISION USING pattern str matches_bool.
+           IF pattern(2:1) = "^" THEN
+               MOVE 1 TO patternNegate
+           ELSE
+               MOVE 0 TO patternNegate
+           END-IF.
+           COMPUTE startSliceFrom = 2 + patternNegate.
+      *    Check valid pattern types
+           COMPUTE pattern_len = FUNCTION STORED-CHAR-LENGTH(pattern).
+           MOVE 0 TO patternLowCase.
+           MOVE 0 TO patternUpCase.
+           MOVE 0 TO patternNum.
+           PERFORM VARYING loopLen FROM startSliceFrom BY 3 UNTIL
+               loopLen = pattern_len
+               MOVE pattern(loopLen:3) TO patternSlice
+
+               EVALUATE patternSlice
+                   WHEN "a-z"
+                       MOVE 1 TO patternLowCase
+                       display "Pattern is lowercase"
+                   WHEN "A-Z"
+                       MOVE 1 TO patternUpCase
+                       display "Pattern is uppercase"
+                   WHEN "a-Z"
+                       MOVE 1 TO patternLowCase
+                       MOVE 1 TO patternUpCase
+                       display "Pattern is lower-upper"
+                   WHEN "0-9"
+                       MOVE 1 TO patternNum
+                       display "Patter is number"
+      D            WHEN OTHER
+      D                display "Pattern " FUNCTION TRIM(pattern)
+      D                    "not understood"
+               END-EVALUATE
+           END-PERFORM.
+EQUAL
+           display "Lower: " patternLowCase " Upper: " patternUpCase
+               " Num: " patternNum.
+
+      *    Match pattern types and string values
            EVALUATE TRUE
-               WHEN FUNCTION TRIM(pattern) = "(a-z)"
-                   IF FUNCTION TRIM(str) is lowerCase THEN
-      D                DISPLAY FUNCTION TRIM (str) " is lowercase a-z"
-                       MOVE 1 TO matches_bool
-                   ELSE
-                       MOVE 0 TO matches_bool
-                   END-IF
-               WHEN FUNCTION TRIM(pattern) = "(A-Z)"
-                   IF FUNCTION TRIM(str) is upperCase THEN
-      D                DISPLAY FUNCTION TRIM (str) " is uppercase A-Z"
-                       MOVE 1 TO matches_bool 
-                   ELSE
-                       MOVE 0 TO matches_bool
-                   END-IF
-               WHEN FUNCTION TRIM(pattern) = "(0-9)"
-                   IF FUNCTION TRIM(str) is anyNumber THEN
-      D                DISPLAY FUNCTION TRIM (str) " is number 0-9"
-                       MOVE 1 TO matches_bool
-                   ELSE
-                       MOVE 0 TO matches_bool 
-                   END-IF
-               WHEN FUNCTION TRIM(pattern) = "(a-Z)"
-                   IF FUNCTION TRIM(str) is upperCase OR
-                    FUNCTION TRIM(str) is lowerCase THEN
-      D               DISPLAY FUNCTION TRIM (str) " is upper/lower a-Z"
-                      MOVE 1 TO matches_bool
-                   ELSE
-                       MOVE 0 TO matches_bool
-                   END-IF
-      D        WHEN OTHER
-      D           display "Pattern " FUNCTION TRIM(pattern)
-      D                 "not understood"
+               WHEN patternLowCase = 1 AND 
+               FUNCTION TRIM(str) is lowerCase
+                   DISPLAY FUNCTION TRIM (str) " is lowercase a-z"
+                   MOVE 1 TO matches_bool
+               WHEN patternUpCase = 1 AND
+               FUNCTION TRIM(str) is upperCase
+                   DISPLAY FUNCTION TRIM (str) " is uppercase A-Z"
+                   MOVE 1 TO matches_bool
+               WHEN patternNum = 1 AND
+               FUNCTION TRIM(str) is anyNumber
+                   DISPLAY FUNCTION TRIM (str) " is number 0-9"
+                   MOVE 1 TO matches_bool
+               WHEN OTHER
+                   MOVE 0 to matches_bool
            END-EVALUATE.
+
+           IF patternNegate = 1 THEN
+               COMPUTE matches_bool = 1 - matches_bool
+           END-IF.
            GOBACK.
        

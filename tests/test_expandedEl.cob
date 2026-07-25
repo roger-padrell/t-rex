@@ -17,7 +17,7 @@
        LINKAGE SECTION.       
 
        PROCEDURE DIVISION.
-           MOVE "(a-z)*" TO pattern.
+           MOVE "[a-z]*" TO pattern.
            MOVE "hello" TO str.
            CALL "trex_match" USING BY REFERENCE pattern str 
                matches_bool str_left.
@@ -27,7 +27,7 @@
            display "Expected: 1".
            display "  "
            display "---------------------------------"
-           MOVE "(a-z)*" TO pattern.
+           MOVE "[a-z]*" TO pattern.
            MOVE "231" TO str.
            CALL "trex_match" USING BY REFERENCE pattern str
                matches_bool str_left.
@@ -37,7 +37,7 @@
            display "Expected: 1".
            display "  "
            display "---------------------------------"
-           MOVE "(a-z)*" TO pattern.
+           MOVE "[a-z]*" TO pattern.
            MOVE "12cc" TO str.
            CALL "trex_match" USING BY REFERENCE pattern str 
                matches_bool str_left.
@@ -48,7 +48,7 @@
            display "  "
            display "---------------------------------"
 
-           MOVE "(a-z)?" TO pattern.
+           MOVE "[a-z]?" TO pattern.
            MOVE "a" TO str.
            CALL "trex_match" USING BY REFERENCE pattern str 
                matches_bool str_left.
@@ -58,7 +58,7 @@
            display "Expected: 1".
            display "  "
            display "---------------------------------"
-           MOVE "(a-z)?" TO pattern.
+           MOVE "[a-z]?" TO pattern.
            MOVE " " TO str.
            CALL "trex_match" USING BY REFERENCE pattern str 
                matches_bool str_left.
@@ -68,7 +68,7 @@
            display "Expected: 1".
            display "  "
            display "---------------------------------"
-           MOVE "(a-z)?" TO pattern.
+           MOVE "[a-z]?" TO pattern.
            MOVE "231" TO str.
            CALL "trex_match" USING BY REFERENCE pattern str
                matches_bool str_left.
@@ -78,7 +78,7 @@
            display "Expected: 1".
            display "  "
            display "---------------------------------"
-           MOVE "(a-z)?" TO pattern.
+           MOVE "[a-z]?" TO pattern.
            MOVE "b" TO str.
            CALL "trex_match" USING BY REFERENCE pattern str
                matches_bool str_left.

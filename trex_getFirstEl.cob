@@ -22,10 +22,10 @@
        PROCEDURE DIVISION USING pattern firstEl newPattern.
            COMPUTE patternLen = FUNCTION STORED-CHAR-LENGTH(pattern).
            MOVE pattern(1:1) TO firstChar.
-           IF firstChar = "(" THEN
+           IF firstChar = "[" THEN
                MOVE " " TO firstEl
                PERFORM VARYING loopIndex FROM 1 BY 1 UNTIL 
-                   firstChar = ")"
+                   firstChar = "]"
                    MOVE pattern(loopIndex:1) TO firstChar
                    STRING firstEl DELIMITED BY SPACES
                        firstChar DELIMITED BY SIZE
