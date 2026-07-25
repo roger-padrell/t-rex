@@ -51,39 +51,39 @@
                EVALUATE patternSlice
                    WHEN "a-z"
                        MOVE 1 TO patternLowCase
-                       display "Pattern is lowercase"
+      D                display "Pattern is lowercase"
                    WHEN "A-Z"
                        MOVE 1 TO patternUpCase
-                       display "Pattern is uppercase"
+      D                display "Pattern is uppercase"
                    WHEN "a-Z"
                        MOVE 1 TO patternLowCase
                        MOVE 1 TO patternUpCase
-                       display "Pattern is lower-upper"
+      D                display "Pattern is lower-upper"
                    WHEN "0-9"
                        MOVE 1 TO patternNum
-                       display "Patter is number"
+      D                display "Patter is number"
       D            WHEN OTHER
       D                display "Pattern " FUNCTION TRIM(pattern)
       D                    "not understood"
                END-EVALUATE
            END-PERFORM.
 EQUAL
-           display "Lower: " patternLowCase " Upper: " patternUpCase
-               " Num: " patternNum.
+      D    display "Lower: " patternLowCase " Upper: " patternUpCase
+      D        " Num: " patternNum.
 
       *    Match pattern types and string values
            EVALUATE TRUE
                WHEN patternLowCase = 1 AND 
                FUNCTION TRIM(str) is lowerCase
-                   DISPLAY FUNCTION TRIM (str) " is lowercase a-z"
+      D            DISPLAY FUNCTION TRIM (str) " is lowercase a-z"
                    MOVE 1 TO matches_bool
                WHEN patternUpCase = 1 AND
                FUNCTION TRIM(str) is upperCase
-                   DISPLAY FUNCTION TRIM (str) " is uppercase A-Z"
+      D            DISPLAY FUNCTION TRIM (str) " is uppercase A-Z"
                    MOVE 1 TO matches_bool
                WHEN patternNum = 1 AND
                FUNCTION TRIM(str) is anyNumber
-                   DISPLAY FUNCTION TRIM (str) " is number 0-9"
+      D            DISPLAY FUNCTION TRIM (str) " is number 0-9"
                    MOVE 1 TO matches_bool
                WHEN OTHER
                    MOVE 0 to matches_bool

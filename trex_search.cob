@@ -51,7 +51,7 @@
                            two_str two_matches_bool str_left
       D                display "Got: " two_matches_bool
                        IF two_matches_bool=1 then
-                           display "Match starts at: " ind
+      D                    display "Match starts at: " ind
                            MOVE ind TO str_from
                        END-IF
                    END-IF
