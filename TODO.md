@@ -8,5 +8,5 @@
     - [x] \w \W
     - [ ] \s \S
 - [ ] Proper grouping (...) and alternation | — essential for complex patterns
-- [ ] Escape sequences \ — needed for literal special characters
+- [x] Escape sequences \ — needed for literal special characters
 - [ ] Non-greedy quantifiers (*?, +?) — changes matching behavior significantly
