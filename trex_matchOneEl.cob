@@ -19,11 +19,13 @@
        01 patternLowCase        PIC 9(1) VALUE 0.
        01 patternUpCase         PIC 9(1) VALUE 0.
        01 patternNum            PIC 9(1) VALUE 0.
-       01 loopLen               PIC 9(1).
+       01 loopLen               PIC 9(3).
        01 patternSlice          PIC X(3).
 
        01 patternNegate         PIC 9(1).
        01 startSliceFrom        PIC 9(1).
+
+       01 someCharFound         PIC 9(1) VALUE 0.
 
 
        LINKAGE SECTION.
@@ -44,10 +46,10 @@
            MOVE 0 TO patternLowCase.
            MOVE 0 TO patternUpCase.
            MOVE 0 TO patternNum.
+           MOVE 0 to someCharFound.
            PERFORM VARYING loopLen FROM startSliceFrom BY 3 UNTIL
                loopLen = pattern_len
                MOVE pattern(loopLen:3) TO patternSlice
-
                EVALUATE patternSlice
                    WHEN "a-z"
                        MOVE 1 TO patternLowCase
@@ -62,12 +64,13 @@
                    WHEN "0-9"
                        MOVE 1 TO patternNum
       D                display "Patter is number"
-      D            WHEN OTHER
-      D                display "Pattern " FUNCTION TRIM(pattern)
-      D                    "not understood"
+                   WHEN OTHER
+                       if patternSlice(1:1) = str(1:1) then
+                           MOVE 1 to someCharFound
+                       end-if
                END-EVALUATE
            END-PERFORM.
-EQUAL
+
       D    display "Lower: " patternLowCase " Upper: " patternUpCase
       D        " Num: " patternNum.
 
@@ -86,7 +89,11 @@ EQUAL
       D            DISPLAY FUNCTION TRIM (str) " is number 0-9"
                    MOVE 1 TO matches_bool
                WHEN OTHER
-                   MOVE 0 to matches_bool
+                   if someCharFound = 1 then
+                       move 1 to matches_bool
+                   else
+                       MOVE 0 to matches_bool
+                   end-if
            END-EVALUATE.
 
            IF patternNegate = 1 THEN

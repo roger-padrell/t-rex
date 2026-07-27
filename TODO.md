@@ -3,7 +3,10 @@
     - [x] [^a-z] ...
 - [x] + quantifier — extremely common
 - [x] {n,m} quantifiers — very useful for specific counts
-- [ ] \d, \w, \s shortcuts — used in 80% of real-world patterns
+- [x] \d, \w, \s shortcuts — used in 80% of real-world patterns
+    - [x] \d \D
+    - [x] \w \W
+    - [ ] \s \S
 - [ ] Proper grouping (...) and alternation | — essential for complex patterns
 - [ ] Escape sequences \ — needed for literal special characters
 - [ ] Non-greedy quantifiers (*?, +?) — changes matching behavior significantly

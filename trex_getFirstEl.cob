@@ -59,6 +59,9 @@
       D            display firstChar
                END-PERFORM
                MOVE pattern(loopIndex:patternLen) TO newPattern
+           WHEN "\"
+               MOVE pattern(1:2) TO firstEl
+               MOVE pattern(3:patternLen) TO newPattern
            WHEN OTHER
                MOVE firstChar TO firstEl
                MOVE pattern(2:patternLen) TO newPattern

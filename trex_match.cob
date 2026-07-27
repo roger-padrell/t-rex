@@ -40,7 +40,6 @@
       D    display " "
       D    display "Pattern: " FUNCTION TRIM(pattern) " Str: " 
       D        FUNCTION TRIM(str).
-      D    display "Pattern 2:1 " pattern(2:1).
            EVALUATE TRUE
                WHEN pattern = SPACES OR pattern_len = 0 
                or pattern = low-value
@@ -72,6 +71,10 @@
       D            display "Found '{'"
                    CALL "trex_matchBrack" USING BY REFERENCE pattern str
                        matches_bool str_left
+               WHEN FUNCTION TRIM(firstEl)(1:1) = "\"
+      D            display "Found '\'"
+                   CALL "trex_matchBackSlash" USING BY REFERENCE 
+                       pattern str matches_bool str_left
                WHEN OTHER
                    MOVE firstEl TO one_pattern
                    MOVE str(1:1) TO one_str

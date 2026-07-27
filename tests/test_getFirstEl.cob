@@ -93,5 +93,27 @@
            display " "
            display "----------------------------------"
 
+           MOVE "\whello" TO pattern.
+           CALL "trex_getFirstEl" USING BY REFERENCE pattern firstEl 
+               newPattern.
+           display "Input: '" FUNCTION TRIM(pattern) "'".
+           display "Output: '" FUNCTION TRIM(firstEl) "','" 
+               FUNCTION TRIM(newPattern) "'".
+           display "Expected: '\w','hello'".
+           MOVE newPattern TO pattern.
+           display " "
+           display "----------------------------------"
+
+           MOVE "\\hello" TO pattern.
+           CALL "trex_getFirstEl" USING BY REFERENCE pattern firstEl 
+               newPattern.
+           display "Input: '" FUNCTION TRIM(pattern) "'".
+           display "Output: '" FUNCTION TRIM(firstEl) "','" 
+               FUNCTION TRIM(newPattern) "'".
+           display "Expected: '\\','hello'".
+           MOVE newPattern TO pattern.
+           display " "
+           display "----------------------------------"
+
            STOP RUN.
        

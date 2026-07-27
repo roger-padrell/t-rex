@@ -29,7 +29,14 @@ What regex features are implemented
 | [A-Z]            | Matches any upper-case character            | [A-Z]       | A, B, C...           |
 | [a-Z] / [a-zA-Z] | Matches any lower or upper case character   |[a-Z][a-zA-Z]| a, B, c, D...        |
 | [0-9]            | Matches any digit                           | [0-9]       | 1, 2, 3...           |
+| [0-9aaa]         | Matching for a specific char or other values| [0-9aaa]    | 3, 5, a              |
 | [^0-9]           | Matches any non-digit (also works with other ranges)| [^0-9]| a, B, !...|
+| \a               | Escapes a character or symbol so it can be literally matches | \\* | '*' |
+| \a              | The classic regex shorcuts  | \w \W \d \D (not \s or \S)|
+> If you are reading the markdown directly, both \a examples are incorrect, as they have double backslash so they can be seen when rendered.
+
+> When matching for a specific character in these group matches you must repeat the character three times so it does not get confused ([0-9a-z___] => any digit, any lowercase character, the '_' symbol)
+
 
 ## Usage
 ### Requirements
