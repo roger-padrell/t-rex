@@ -6,7 +6,7 @@
 - [x] \d, \w, \s shortcuts — used in 80% of real-world patterns
     - [x] \d \D
     - [x] \w \W
-    - [ ] \s \S
+    - [x] \S
 - [ ] Proper grouping (...) and alternation | — essential for complex patterns
 - [x] Escape sequences \ — needed for literal special characters
 - [ ] Non-greedy quantifiers (*?, +?) — changes matching behavior significantly

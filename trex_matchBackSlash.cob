@@ -60,6 +60,11 @@
                    MOVE str(1:1) TO one_str
                    CALL "trex_matchOneEl" USING BY REFERENCE 
                        one_pattern one_str one_matches_bool
+               WHEN "S"
+                   MOVE "[^   ]" TO one_pattern
+                   MOVE str(1:1) TO one_str
+                   CALL "trex_matchOneEl" USING BY REFERENCE 
+                       one_pattern one_str one_matches_bool
                WHEN other
                    IF pattern(2:1) = str(1:1) then
                        MOVE 1 TO one_matches_bool
